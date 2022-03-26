@@ -22,7 +22,17 @@ async function getStatesUseCase(): Promise<State[]> {
     });
   }
 
-  return statesUseCase;
+  const sortedStatesUseCase = statesUseCase.sort((st1: State, st2: State) => {
+    if (st1.abbreviation > st2.abbreviation) {
+      return 1;
+    }
+    if (st1.abbreviation < st2.abbreviation) {
+      return -1;
+    }
+    return 0;
+  });
+
+  return sortedStatesUseCase;
 }
 
 export { getStatesUseCase };
