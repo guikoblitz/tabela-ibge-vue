@@ -1,6 +1,6 @@
 import { Loading, QTable } from 'quasar';
 import lodash from 'lodash';
-import { onMounted, reactive, watch } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { State } from 'src/common/interfaces/State';
 import { getStatesUseCase } from 'src/useCases/StateUseCase';
 import { District } from 'src/common/interfaces/District';
@@ -12,7 +12,6 @@ export default {
       selectedState: null as State | null,
       stateOptions: [] as State[],
       stateData: [] as District[],
-      teste: '',
     });
     const districtsTableColumns = [
       {
@@ -33,15 +32,7 @@ export default {
 
     onMounted(async () => {
       state.stateOptions = await getStatesUseCase();
-      console.log(state.stateOptions);
     });
-
-    watch(
-      () => state.selectedState,
-      (val) => {
-        console.log(val);
-      }
-    );
 
     async function selectState(): Promise<void> {
       if (state.selectedState) {

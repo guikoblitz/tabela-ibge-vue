@@ -1,5 +1,6 @@
 import { District } from 'src/common/interfaces/District';
 import { getDistrictsByState } from 'src/services/IbgeService';
+import { convertDistrictDTOtoDistrict } from 'src/util/UseCasesUtil';
 
 async function getDistrictsByStateUseCase(stateId: number | string): Promise<District[]> {
   const districtsDTO = await getDistrictsByState(stateId);
@@ -7,13 +8,7 @@ async function getDistrictsByStateUseCase(stateId: number | string): Promise<Dis
 
   if (districtsDTO && districtsDTO.length > 0) {
     districtsDTO.forEach((districtDTO) => {
-      const districtUseCase = {
-        id: districtDTO.id,
-        name: districtDTO.nome,
-        city: {
-          id: districtDTO.municipio.id,
-        },
-      } as District;
+      const districtUseCase = convertDistrictDTOtoDistrict(districtDTO);
       districtsUseCase.push(districtUseCase);
     });
   }

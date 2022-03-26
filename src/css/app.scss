@@ -1,1 +1,41 @@
 // app global css in SCSS form
+.body--light .q-table thead {
+  background-color: #a5a5a5;
+}
+
+.body--light .q-table thead tr th {
+  color: #222222;
+}
+
+.body--light .q-table tbody tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.body--light .q-table tbody tr:nth-child(odd) td .q-field__control {
+  background-color: transparent;
+}
+
+.body--light .q-table tbody tr:nth-child(even) {
+  background-color: #e0e0e0;
+}
+
+.body--light .q-table tbody tr:nth-child(even) td .q-field__control {
+  background-color: transparent;
+}
+
+.body--light .q-table tbody tr td .q-field--focused .q-field__control {
+  background-color: #fafafa;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.body--light .q-table td {
+  border-bottom-color: #d0d0d0;
+}
+
+.body--light .q-table__top {
+  background-color: #a5a5a5;
+}
+
+.body--light .q-table__bottom {
+  background-color: #a5a5a5;
+}

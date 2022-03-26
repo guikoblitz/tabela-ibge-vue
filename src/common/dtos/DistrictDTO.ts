@@ -15,7 +15,7 @@ interface Municipio {
 
   microrregiao: Microrregiao;
 
-  regiaoImediata: RegiaoImediata;
+  'regiao-imediata': RegiaoImediata;
 }
 
 interface Microrregiao {
@@ -31,7 +31,7 @@ interface Mesorregiao {
 
   nome: string;
 
-  uf: StateDTO;
+  UF: StateDTO;
 }
 
 interface RegiaoImediata {
@@ -39,7 +39,7 @@ interface RegiaoImediata {
 
   nome: string;
 
-  regiaoIntermediaria: RegiaoIntermediaria;
+  'regiao-intermediaria': RegiaoIntermediaria;
 }
 
 interface RegiaoIntermediaria {
@@ -47,5 +47,5 @@ interface RegiaoIntermediaria {
 
   nome: string;
 
-  uf: StateDTO;
+  UF: StateDTO;
 }
