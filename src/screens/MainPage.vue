@@ -21,7 +21,15 @@
       />
     </div>
     <div v-if="state.stateData && state.stateData.length > 0" class="q-pa-sm">
-      <q-table ref="districtsTable" title="Dados IBGE" :columns="districtsTableColumns" :rows="state.stateData" row-key="name" dense>
+      <q-table
+        ref="districtsTable"
+        :title="`Distritos da UF ${state.selectedState.name} - Dados IBGE`"
+        :columns="districtsTableColumns"
+        :rows="state.stateData"
+        :sort-method="sortDistricts"
+        row-key="name"
+        dense
+      >
         <template v-slot:body="props">
           <q-tr :props="props" @click="selectDistrict(props.row)" style="font-weight: 500; cursor: pointer">
             <q-td key="name" :props="props">
@@ -42,6 +50,12 @@
         <q-img src="../assets/empty-table.svg" style="height: 30vh; width: 30vw" />
       </div>
     </div>
+    <DistrictModal
+      v-if="state.showDistrict"
+      :showDistrict="state.showDistrict"
+      :selectedDistrict="state.selectedDistrict"
+      @closeModal="state.showDistrict = $event"
+    />
   </q-page>
 </template>
 
