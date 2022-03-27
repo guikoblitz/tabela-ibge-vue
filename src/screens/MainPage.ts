@@ -5,28 +5,30 @@ import { State } from 'src/common/interfaces/State';
 import { getStatesUseCase } from 'src/useCases/StateUseCase';
 import { District } from 'src/common/interfaces/District';
 import { getDistrictsByStateUseCase } from 'src/useCases/DistrictUseCase';
-import DistrictModal from 'src/modals/DistrictModal.vue';
+import InformationModal from 'src/modals/InformationModal.vue';
 import { removeAccentuation } from 'src/util/GeneralUtil';
 import { ResizeObserverType } from 'src/common/interfaces/ResizeObserverType';
+import { City } from 'src/common/interfaces/City';
 
 export default {
   components: {
-    DistrictModal,
+    InformationModal,
   },
   setup() {
     const state = reactive({
       selectedState: null as State | null,
-      selectedDistrict: null as District | null,
+      selectedRow: null as District | City | null,
       stateOptions: [] as State[],
-      stateData: [] as District[],
-      showDistrict: false,
+      stateData: [] as District[] | City[],
+      showModal: false,
       isMobile: false,
+      returnCities: true,
       heightLogo: 0,
       heightSelect: 0,
       heightPage: 0,
       tableHeight: 0,
     });
-    const districtsTableColumns = [
+    const tableColumns = [
       {
         name: 'name',
         align: 'left',
@@ -57,35 +59,33 @@ export default {
 
     async function selectState(): Promise<void> {
       if (state.selectedState) {
-        Loading.show({ message: 'Carregando Distritos...' });
-        const bottomPadding = state.isMobile ? 24 : 16;
-        state.tableHeight = state.heightPage - state.heightLogo - state.heightSelect - bottomPadding - 32;
-        const stateDistricts = await getDistrictsByStateUseCase(state.selectedState.id);
-        if (stateDistricts) state.stateData = lodash.cloneDeep(stateDistricts);
+        Loading.show({ message: 'Carregando Cidades...' });
+        const stateData = await getDistrictsByStateUseCase(state.selectedState.id, state.returnCities);
+        if (stateData) state.stateData = lodash.cloneDeep(stateData);
         Loading.hide();
       }
     }
 
-    function selectDistrict(district: District): void {
-      state.selectedDistrict = lodash.cloneDeep(district);
-      state.showDistrict = true;
+    function selectDistrictOrCity(selection: District | City): void {
+      state.selectedRow = lodash.cloneDeep(selection);
+      state.showModal = true;
     }
 
-    function sortDistricts(districts: District[], sortBy: string, descending: boolean) {
-      const sortedData = lodash.cloneDeep(districts);
+    function sortTable(rows: District[] | City[], sortBy: string, descending: boolean) {
+      const sortedData = lodash.cloneDeep(rows);
 
       if (sortBy) {
         sortedData.sort((a, b) => {
-          const districtX = descending ? b : a;
-          const districtY = descending ? a : b;
+          const rowX = descending ? b : a;
+          const rowY = descending ? a : b;
 
-          const districtXName = removeAccentuation(districtX.name);
-          const districtYName = removeAccentuation(districtY.name);
+          const rowXName = removeAccentuation(rowX.name);
+          const rowYName = removeAccentuation(rowY.name);
 
           if (sortBy === 'name') {
-            return districtXName > districtYName ? 1 : districtXName < districtYName ? -1 : 0;
+            return rowXName > rowYName ? 1 : rowXName < rowYName ? -1 : 0;
           } else {
-            return parseFloat(districtX.id) - parseFloat(districtY.id);
+            return parseFloat(rowX.id) - parseFloat(rowY.id);
           }
         });
       }
@@ -93,19 +93,16 @@ export default {
     }
 
     function recalculateTableHeight(): void {
-      const bottomPadding = state.isMobile ? 24 : 16;
-      state.tableHeight = state.heightPage - state.heightLogo - state.heightSelect - bottomPadding - 32;
+      state.tableHeight = state.heightPage - state.heightLogo - state.heightSelect - 16 - 40;
     }
 
     function handleResizeLogo(resizeObserver: ResizeObserverType): void {
       state.heightLogo = resizeObserver.height;
-      console.log(1);
       recalculateTableHeight();
     }
 
     function handleResizeSelect(resizeObserver: ResizeObserverType): void {
       state.heightSelect = resizeObserver.height;
-      console.log(2);
       recalculateTableHeight();
     }
 
@@ -117,14 +114,16 @@ export default {
       } else {
         state.isMobile = false;
       }
+
+      recalculateTableHeight();
     }
 
     return {
       state,
-      districtsTableColumns,
+      tableColumns,
       selectState,
-      selectDistrict,
-      sortDistricts,
+      selectDistrictOrCity,
+      sortTable,
       handleResizeLogo,
       handleResizeSelect,
       handleResizePage,

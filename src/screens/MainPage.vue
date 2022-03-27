@@ -24,20 +24,22 @@
       />
     </div>
     <div v-if="state.stateData && state.stateData.length > 0" class="q-px-sm q-pb-sm">
-      <div>
-        <span class="text-h6 text-primary q-py-xs">{{ `Distritos da UF ${state.selectedState.name} - Dados IBGE` }}</span>
+      <div class="q-py-xs">
+        <span class="text-h6" style="color: #004f88">{{
+          `Distritos da UF ${state.isMobile ? state.selectedState.abbreviation : state.selectedState.name} - Dados IBGE`
+        }}</span>
       </div>
       <q-table
-        ref="districtsTable"
+        ref="dataTable"
         :style="`height: ${state.tableHeight}px`"
-        :columns="districtsTableColumns"
+        :columns="tableColumns"
         :rows="state.stateData"
-        :sort-method="sortDistricts"
+        :sort-method="sortTable"
         row-key="name"
         dense
       >
         <template v-slot:body="props">
-          <q-tr :props="props" @click="selectDistrict(props.row)" style="font-weight: 500; cursor: pointer">
+          <q-tr :props="props" @click="selectDistrictOrCity(props.row)" style="font-weight: 500; cursor: pointer">
             <q-td key="name" :props="props">
               {{ props.row.name }}
             </q-td>
@@ -60,11 +62,11 @@
         <span class="text-h6 text-primary">Nenhuma UF selecionada... :(</span>
       </div>
     </div>
-    <DistrictModal
-      v-if="state.showDistrict"
-      :showDistrict="state.showDistrict"
-      :selectedDistrict="state.selectedDistrict"
-      @closeModal="state.showDistrict = $event"
+    <InformationModal
+      v-if="state.showModal"
+      :showModal="state.showModal"
+      :selectedRow="state.selectedRow"
+      @closeModal="state.showModal = $event"
     />
   </q-page>
 </template>

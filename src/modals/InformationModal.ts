@@ -2,16 +2,16 @@ import { onMounted, onUnmounted, reactive } from 'vue';
 
 export default {
   props: {
-    showDistrict: Boolean,
-    selectedDistrict: Object,
+    showModal: Boolean,
+    selectedRow: Object,
   },
   emits: ['closeModal'],
   setup(props: any, context: any) {
     const state = reactive({});
-    const selectedDistrict = props.selectedDistrict;
+    const selectedRow = props.selectedRow;
 
     onMounted(() => {
-      console.log(props.selectedDistrict);
+      console.log(props.selectedRow);
       addEvents();
     });
 
@@ -39,6 +39,6 @@ export default {
       }
     }
 
-    return { state, selectedDistrict, closeModal };
+    return { state, selectedRow, closeModal };
   },
 };
