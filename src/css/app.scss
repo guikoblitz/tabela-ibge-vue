@@ -1,9 +1,14 @@
 // app global css in SCSS form
 .body--light .q-table thead {
-  background-color: #a5a5a5;
+  background-color: #004f88;
+  color: #fafafa;
 }
 
-.body--light .q-table thead tr th {
+.body--light .q-table th {
+  color: #fafafa;
+}
+
+.body--light .q-table thead tr {
   color: #222222;
 }
 
@@ -16,7 +21,8 @@
 }
 
 .body--light .q-table tbody tr:nth-child(even) {
-  background-color: #e0e0e0;
+  background-color: #7091be;
+  color: #fafafa;
 }
 
 .body--light .q-table tbody tr:nth-child(even) td .q-field__control {
@@ -33,9 +39,11 @@
 }
 
 .body--light .q-table__top {
-  background-color: #a5a5a5;
+  background-color: #004f88;
+  color: #fafafa;
 }
 
 .body--light .q-table__bottom {
-  background-color: #a5a5a5;
+  background-color: #004f88;
+  color: #fafafa;
 }
