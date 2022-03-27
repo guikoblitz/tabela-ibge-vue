@@ -1,12 +1,13 @@
 import { Loading, QTable } from 'quasar';
 import lodash from 'lodash';
-import { onMounted, reactive } from 'vue';
+import { onBeforeMount, onMounted, reactive } from 'vue';
 import { State } from 'src/common/interfaces/State';
 import { getStatesUseCase } from 'src/useCases/StateUseCase';
 import { District } from 'src/common/interfaces/District';
 import { getDistrictsByStateUseCase } from 'src/useCases/DistrictUseCase';
 import DistrictModal from 'src/modals/DistrictModal.vue';
 import { removeAccentuation } from 'src/util/GeneralUtil';
+import { ResizeObserverType } from 'src/common/interfaces/ResizeObserverType';
 
 export default {
   components: {
@@ -19,6 +20,11 @@ export default {
       stateOptions: [] as State[],
       stateData: [] as District[],
       showDistrict: false,
+      isMobile: false,
+      heightLogo: 0,
+      heightSelect: 0,
+      heightPage: 0,
+      tableHeight: 0,
     });
     const districtsTableColumns = [
       {
@@ -39,6 +45,12 @@ export default {
       },
     ] as QTable['columns'];
 
+    onBeforeMount(() => {
+      if (screen.width <= 760) {
+        state.isMobile = true;
+      }
+    });
+
     onMounted(async () => {
       state.stateOptions = await getStatesUseCase();
     });
@@ -46,6 +58,8 @@ export default {
     async function selectState(): Promise<void> {
       if (state.selectedState) {
         Loading.show({ message: 'Carregando Distritos...' });
+        const bottomPadding = state.isMobile ? 24 : 16;
+        state.tableHeight = state.heightPage - state.heightLogo - state.heightSelect - bottomPadding - 32;
         const stateDistricts = await getDistrictsByStateUseCase(state.selectedState.id);
         if (stateDistricts) state.stateData = lodash.cloneDeep(stateDistricts);
         Loading.hide();
@@ -78,6 +92,42 @@ export default {
       return sortedData;
     }
 
-    return { state, districtsTableColumns, selectState, selectDistrict, sortDistricts };
+    function recalculateTableHeight(): void {
+      const bottomPadding = state.isMobile ? 24 : 16;
+      state.tableHeight = state.heightPage - state.heightLogo - state.heightSelect - bottomPadding - 32;
+    }
+
+    function handleResizeLogo(resizeObserver: ResizeObserverType): void {
+      state.heightLogo = resizeObserver.height;
+      console.log(1);
+      recalculateTableHeight();
+    }
+
+    function handleResizeSelect(resizeObserver: ResizeObserverType): void {
+      state.heightSelect = resizeObserver.height;
+      console.log(2);
+      recalculateTableHeight();
+    }
+
+    function handleResizePage(): void {
+      state.heightPage = window.innerHeight;
+
+      if (screen.width <= 720) {
+        state.isMobile = true;
+      } else {
+        state.isMobile = false;
+      }
+    }
+
+    return {
+      state,
+      districtsTableColumns,
+      selectState,
+      selectDistrict,
+      sortDistricts,
+      handleResizeLogo,
+      handleResizeSelect,
+      handleResizePage,
+    };
   },
 };

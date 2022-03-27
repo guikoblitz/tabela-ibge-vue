@@ -1,11 +1,14 @@
 <template>
-  <q-page class="side-spacing" style="background: white">
-    <div class="q-pa-sm center">
-      <div style="width: 40%; heigth: 100px">
+  <q-page id="qPage" :class="state.isMobile ? 'q-px-md q-pt-sm' : 'side-spacing q-pt-sm'" style="background: white">
+    <q-resize-observer @resize="handleResizePage" />
+    <div class="q-pa-md center">
+      <q-resize-observer @resize="handleResizeLogo" />
+      <div :style="state.isMobile ? 'width: 60%' : 'width: 40%'">
         <q-img src="../assets/ibge-logo.png" class="col-4" />
       </div>
     </div>
-    <div class="q-pa-sm">
+    <div :class="state.stateData && state.stateData.length > 0 ? 'q-px-sm q-pt-sm' : 'q-pa-sm'">
+      <q-resize-observer @resize="handleResizeSelect" />
       <q-select
         ref="stateSelector"
         label="UF"
@@ -20,10 +23,13 @@
         @update:model-value="selectState()"
       />
     </div>
-    <div v-if="state.stateData && state.stateData.length > 0" class="q-pa-sm">
+    <div v-if="state.stateData && state.stateData.length > 0" class="q-px-sm q-pb-sm">
+      <div>
+        <span class="text-h6 text-primary q-py-xs">{{ `Distritos da UF ${state.selectedState.name} - Dados IBGE` }}</span>
+      </div>
       <q-table
         ref="districtsTable"
-        :title="`Distritos da UF ${state.selectedState.name} - Dados IBGE`"
+        :style="`height: ${state.tableHeight}px`"
         :columns="districtsTableColumns"
         :rows="state.stateData"
         :sort-method="sortDistricts"
@@ -44,10 +50,14 @@
     </div>
     <div v-else class="q-pa-sm text-center">
       <div>
-        <span class="text-h6 text-primary">Nenhuma UF selecionada... :(</span>
+        <q-img
+          src="../assets/empty-table.svg"
+          fit="fill"
+          :style="state.isMobile ? 'height: 25vh; width: 50vw' : 'height: 35vh; width: 45vw'"
+        />
       </div>
-      <div>
-        <q-img src="../assets/empty-table.svg" style="height: 30vh; width: 30vw" />
+      <div class="q-pt-sm">
+        <span class="text-h6 text-primary">Nenhuma UF selecionada... :(</span>
       </div>
     </div>
     <DistrictModal
