@@ -5,7 +5,7 @@ export interface City {
 
   name: string;
 
-  microregion: Microregion;
+  microRegion: Microregion;
 
   immediateRegion: ImmediateRegion;
 }

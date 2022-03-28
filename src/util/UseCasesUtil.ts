@@ -26,7 +26,7 @@ function convertDistrictDTOtoDistrict(districtDTO: DistrictDTO): District {
     city: {
       id: districtDTO.municipio.id,
       name: districtDTO.municipio.nome,
-      microregion: {
+      microRegion: {
         id: districtDTO.municipio.microrregiao.id,
         name: districtDTO.municipio.microrregiao.nome,
         mesoRegion: {
