@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="showModal" persistent color="warning">
-    <q-card :style="isMobile ? 'width: 90vw' : '500px'">
+    <q-card :style="isMobile ? 'width: 90vw' : 'width: 560px'" style="border-radius: 15px; background: #004f88">
       <q-card-section class="row q-pa-sm" style="display: flex; justify-content: space-between; background: #004f88">
         <div class="text-h6 text-center">
           <span class="text-weight-bold" style="color: white">Informações</span>
