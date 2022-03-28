@@ -25,9 +25,11 @@ com utilização da API pública <a href="https://servicodados.ibge.gov.br/api/d
 ## ⌨️ Tecnologias
 
 <ul>
-  <li>Vue.js 3.0</li>
+  <li>Vue 3</li>
+  <li>Quasar v2</li>
   <li>TypeScript</li>
   <li>Vue Router</li>
+  <li>VueX</li>
   <li>Axios</li>
   <li>LocalForage e SQLite Driver para Cordova</li>
 </ul>
