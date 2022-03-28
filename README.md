@@ -1,37 +1,33 @@
-# Tabela IBGE (tabela-ibge-vue)
-
+<h1 align="center">
 Tabela de consulta ao IBGE
+</h1>
 
-## Install the dependencies
+<h6>
+Tabela desenvolvida em Vue.js para a listagem de cidades baseadas em um UF escolhido,
+com utilização da API pública <a href="https://servicodados.ibge.gov.br/api/docs/">IBGE API</a> para o consumo dos dados.
+</h6>
 
-```bash
-npm install
-```
+## :rocket: Como executar
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+<ul>
+  <li>Clonar o projeto</li>
+  <li>Instalar as depêndencias usando <strong>npm i</strong></li>
+  <li>Executar comando <strong>npm run dev</strong> no diretório raiz</li>
+</ul>
 
-```bash
-quasar dev
-```
+## :speech_balloon: Funcionalidades
 
-### Lint the files
+<ul>
+  <li>Listagem e seleção de UFs do Brasil</li>
+  <li>Listagem de Cidades baseada na UF selecionada</li>
+  <li>Modal com detalhes sobre a cidade selecionada</li>
+</ul>
 
-```bash
-npm run lint
-```
+## ⌨️ Tecnologias
 
-### Format the files
-
-```bash
-npm run format
-```
-
-### Build the app for production
-
-```bash
-quasar build
-```
-
-### Customize the configuration
-
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+<ul>
+  <li>Vue.js 3.0</li>
+  <li>TypeScript</li>
+  <li>Vue Router</li>
+  <li>Axios</li>
+</ul>
