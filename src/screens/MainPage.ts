@@ -27,13 +27,13 @@ export default {
       heightSelect: 0,
       heightPage: 0,
       tableHeight: 0,
+      widthPage: 0,
     });
     const tableColumns = [
       {
         name: 'name',
         align: 'left',
         label: 'NOME',
-        headerStyle: 'min-width: 140px',
         required: true,
         sortable: true,
       },
@@ -41,11 +41,12 @@ export default {
         name: 'ibgeCode',
         align: 'left',
         label: 'CÓDIGO IBGE',
-        headerStyle: 'min-width: 140px',
         required: true,
         sortable: true,
       },
     ] as QTable['columns'];
+
+    const pagination = { rowsPerPage: 0 };
 
     onBeforeMount(() => {
       if (screen.width <= 760) {
@@ -106,8 +107,9 @@ export default {
       recalculateTableHeight();
     }
 
-    function handleResizePage(): void {
+    function handleResizePage(resizeObserver: ResizeObserverType): void {
       state.heightPage = window.innerHeight;
+      state.widthPage = resizeObserver.width;
 
       if (screen.width <= 720) {
         state.isMobile = true;
@@ -121,6 +123,7 @@ export default {
     return {
       state,
       tableColumns,
+      pagination,
       selectState,
       selectDistrictOrCity,
       sortTable,

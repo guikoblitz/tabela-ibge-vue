@@ -26,21 +26,28 @@
     <div v-if="state.stateData && state.stateData.length > 0" class="q-px-sm q-pb-sm">
       <div class="q-py-xs">
         <span class="text-h6" style="color: #004f88">{{
-          `Distritos da UF ${state.isMobile ? state.selectedState.abbreviation : state.selectedState.name} - Dados IBGE`
+          `${state.returnCities ? 'Cidades' : 'Distritos'} da UF ${
+            state.isMobile ? state.selectedState.abbreviation : state.selectedState.name
+          } - Dados IBGE`
         }}</span>
       </div>
       <q-table
         ref="dataTable"
         :style="`height: ${state.tableHeight}px`"
+        class="sticky-scroll-header"
         :columns="tableColumns"
         :rows="state.stateData"
         :sort-method="sortTable"
         row-key="name"
         dense
+        :loading="loading"
+        virtual-scroll
+        :pagination="pagination"
+        :rows-per-page-options="[0]"
       >
         <template v-slot:body="props">
           <q-tr :props="props" @click="selectDistrictOrCity(props.row)" style="font-weight: 500; cursor: pointer">
-            <q-td key="name" :props="props">
+            <q-td key="name" :props="props" :style="`min-width: 150px; max-width: 150px`">
               {{ props.row.name }}
             </q-td>
             <q-td key="ibgeCode" :props="props">
@@ -82,5 +89,15 @@
 .center {
   display: flex;
   justify-content: center;
+}
+
+.sticky-scroll-header tr th {
+  position: sticky;
+  z-index: 1;
+  background: #004f88;
+}
+
+.sticky-scroll-header tr:first-child th {
+  top: 0;
 }
 </style>
