@@ -4,11 +4,13 @@ export default {
   props: {
     showModal: Boolean,
     selectedRow: Object,
+    isMobile: Boolean,
   },
   emits: ['closeModal'],
   setup(props: any, context: any) {
     const state = reactive({});
     const selectedRow = props.selectedRow;
+    const isMobile = props.isMobile;
 
     onMounted(() => {
       console.log(props.selectedRow);
@@ -39,6 +41,6 @@ export default {
       }
     }
 
-    return { state, selectedRow, closeModal };
+    return { state, selectedRow, isMobile, closeModal };
   },
 };
