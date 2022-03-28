@@ -4,7 +4,7 @@ Tabela de consulta ao IBGE
 
 <h6>
 Tabela desenvolvida em Vue.js para a listagem de cidades baseadas em um UF escolhido,
-com utilização da API pública <a href="https://servicodados.ibge.gov.br/api/docs/">IBGE API</a> para o consumo dos dados.
+com utilização da API pública <a href="https://servicodados.ibge.gov.br/api/docs/localidades/">IBGE API</a> para o consumo dos dados.
 </h6>
 
 ## :rocket: Como executar
