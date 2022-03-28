@@ -13,7 +13,6 @@ export default {
     const isMobile = props.isMobile;
 
     onMounted(() => {
-      console.log(props.selectedRow);
       addEvents();
     });
 
