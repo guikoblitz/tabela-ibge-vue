@@ -19,7 +19,7 @@ com utilização da API pública <a href="https://servicodados.ibge.gov.br/api/d
   <li>Listagem e seleção de UFs do Brasil</li>
   <li>Listagem de Cidades baseada na UF selecionada</li>
   <li>Modal com detalhes sobre a cidade selecionada</li>
-  <li>Armazenamento e destaque da cidade selecionada</li>
+  <li>Armazenamento e destaque da(s) cidade(s) selecionada(s)</li>
 </ul>
 
 ## ⌨️ Tecnologias
