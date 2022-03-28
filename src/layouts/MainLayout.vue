@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <!-- <q-page-container style="background: #05c3dd"> -->
-    <q-page-container>
+    <q-page-container class="bg-image">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -17,3 +17,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.bg-image {
+  background-image: url('../assets/background-main-page.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>

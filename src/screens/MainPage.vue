@@ -1,5 +1,5 @@
 <template>
-  <q-page id="qPage" :class="state.isMobile ? 'q-px-md q-pt-sm' : 'side-spacing q-pt-sm'" style="background: white">
+  <q-page id="qPage" :class="state.isMobile ? 'q-px-md q-pt-sm' : 'side-spacing q-pt-sm'" style="background: #fafafa">
     <q-resize-observer @resize="handleResizePage" />
     <div class="q-pa-md center">
       <q-resize-observer @resize="handleResizeLogo" />
@@ -40,7 +40,6 @@
         :sort-method="sortTable"
         row-key="name"
         dense
-        :loading="loading"
         virtual-scroll
         :pagination="pagination"
         :rows-per-page-options="[0]"
@@ -73,6 +72,7 @@
       v-if="state.showModal"
       :showModal="state.showModal"
       :selectedRow="state.selectedRow"
+      :isMobile="state.isMobile"
       @closeModal="state.showModal = $event"
     />
   </q-page>
