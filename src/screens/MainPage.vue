@@ -48,7 +48,14 @@
           <q-tr :props="props" @click="selectDistrictOrCity(props.row)" style="font-weight: 500; cursor: pointer">
             <q-td key="name" :props="props" :style="`min-width: 150px; max-width: 150px`">
               {{ props.row.name }}
-              <q-icon v-if="props.row.selected" name="grade" color="orange" class="q-pl-sm" @click.stop="removeSelectedCity(props.row)">
+              <q-icon
+                v-if="props.row.selected"
+                name="grade"
+                color="orange"
+                class="q-pl-sm"
+                size="xs"
+                @click.stop="removeSelectedCity(props.row)"
+              >
                 <q-tooltip anchor="top right" content-style="font-size: 12px" self="center middle">
                   <strong>Remover de cidades selecionadas</strong>
                 </q-tooltip>
