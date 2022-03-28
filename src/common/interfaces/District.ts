@@ -6,4 +6,6 @@ export interface District {
   name: string;
 
   city: City;
+
+  selected: boolean;
 }

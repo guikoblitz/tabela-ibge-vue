@@ -1,6 +1,6 @@
 import { Loading, QTable } from 'quasar';
 import lodash from 'lodash';
-import { onBeforeMount, onMounted, reactive } from 'vue';
+import { getCurrentInstance, onBeforeMount, onMounted, reactive } from 'vue';
 import { State } from 'src/common/interfaces/State';
 import { getStatesUseCase } from 'src/useCases/StateUseCase';
 import { District } from 'src/common/interfaces/District';
@@ -9,6 +9,7 @@ import InformationModal from 'src/modals/InformationModal.vue';
 import { removeAccentuation } from 'src/util/GeneralUtil';
 import { ResizeObserverType } from 'src/common/interfaces/ResizeObserverType';
 import { City } from 'src/common/interfaces/City';
+import Storage from 'src/util/LocalStorageUtil';
 
 export default {
   components: {
@@ -28,6 +29,7 @@ export default {
       heightPage: 0,
       tableHeight: 0,
       widthPage: 0,
+      globalProperties: null as any,
     });
     const tableColumns = [
       {
@@ -47,10 +49,19 @@ export default {
     ] as QTable['columns'];
 
     const pagination = { rowsPerPage: 0 };
+    const app = getCurrentInstance();
+    const storage = new Storage();
 
-    onBeforeMount(() => {
+    onBeforeMount(async () => {
       if (screen.width <= 760) {
         state.isMobile = true;
+      }
+
+      if (app) {
+        state.globalProperties = app.appContext.config.globalProperties;
+        const selectedCitiesDB = (await storage.get('selectedCities')) as City[];
+        if (selectedCitiesDB && selectedCitiesDB.length > 0)
+          state.globalProperties.$store.dispatch('general/setSelectedCities', selectedCitiesDB);
       }
     });
 
@@ -61,14 +72,17 @@ export default {
     async function selectState(): Promise<void> {
       if (state.selectedState) {
         Loading.show({ message: 'Carregando Cidades...' });
-        const stateData = await getDistrictsByStateUseCase(state.selectedState.id, state.returnCities);
+        const selectedCities = state.globalProperties.$store.state.general.selectedCities;
+        const stateData = await getDistrictsByStateUseCase(state.selectedState.id, selectedCities, state.returnCities);
         if (stateData) state.stateData = lodash.cloneDeep(stateData);
         Loading.hide();
       }
     }
 
     function selectDistrictOrCity(selection: District | City): void {
+      if (!selection.selected) selection.selected = true;
       state.selectedRow = lodash.cloneDeep(selection);
+      state.globalProperties.$store.dispatch('general/pushSelectedCity', state.selectedRow);
       state.showModal = true;
     }
 

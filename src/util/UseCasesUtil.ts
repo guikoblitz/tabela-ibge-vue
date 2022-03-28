@@ -23,6 +23,7 @@ function convertDistrictDTOtoDistrict(districtDTO: DistrictDTO): District {
   const districtUseCase = {
     id: districtDTO.id,
     name: districtDTO.nome,
+    selected: false, // TRATAR PARA IMPLEMENTAÇÕES FUTURAS
     city: {
       id: districtDTO.municipio.id,
       name: districtDTO.municipio.nome,

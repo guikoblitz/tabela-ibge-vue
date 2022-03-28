@@ -8,6 +8,8 @@ export interface City {
   microRegion: Microregion;
 
   immediateRegion: ImmediateRegion;
+
+  selected: boolean;
 }
 
 interface Microregion {
