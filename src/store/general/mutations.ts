@@ -14,9 +14,13 @@ const mutation: MutationTree<StateInitialInterface> = {
   },
 
   DROP_SELECTED_CITY(state, payload) {
-    const updatedArray = state.selectedCities.filter((city) => city.id !== payload.id);
-    console.log(updatedArray);
-    state.selectedCities.push(payload);
+    console.log(payload);
+    const selectedCityIndex = state.selectedCities.findIndex((city) => city.id === payload.id);
+    console.log(selectedCityIndex);
+    if (selectedCityIndex !== -1) {
+      state.selectedCities.splice(selectedCityIndex, 1);
+    }
+    console.log(state.selectedCities);
     storage.set('selectedCities', lodash.cloneDeep(state.selectedCities));
   },
 

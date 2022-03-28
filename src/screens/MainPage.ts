@@ -79,6 +79,11 @@ export default {
       }
     }
 
+    function removeSelectedCity(selection: District | City): void {
+      selection.selected = false;
+      state.globalProperties.$store.dispatch('general/dropSelectedCity', selection);
+    }
+
     function selectDistrictOrCity(selection: District | City): void {
       if (!selection.selected) selection.selected = true;
       state.selectedRow = lodash.cloneDeep(selection);
@@ -139,6 +144,7 @@ export default {
       tableColumns,
       pagination,
       selectState,
+      removeSelectedCity,
       selectDistrictOrCity,
       sortTable,
       handleResizeLogo,
