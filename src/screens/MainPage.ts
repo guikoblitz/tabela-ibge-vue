@@ -67,7 +67,6 @@ export default {
 
     onMounted(async () => {
       state.stateOptions = await getStatesUseCase();
-      console.log('Teste');
     });
 
     async function selectState(): Promise<void> {
